@@ -38,3 +38,4 @@ RUN set -xe; \
     python3.8 -m pip install crossenv; \
     python3.8 -m crossenv /python_xcompile/_install/bin/python3.8 /build/venv --sysroot=$(arm-frc2020-linux-gnueabi-gcc -print-sysroot); \
     rm -rf /var/lib/apt/lists/*
+COPY crossenv.cfg /build/venv/crossenv.cfg
