@@ -51,7 +51,7 @@ FROM robotpy/roborio-cpp-cross-ubuntu:2020-18.04 AS crossenv
 RUN set -xe; \
     apt-get update; \
     apt-get install -y \
-        libreadline5 libncursesw5 libssl1.1 \
+        binutils libreadline5 libncursesw5 libssl1.1 \
         libsqlite3-0 libgdbm5 libbz2-1.0 libffi6 zlib1g; \
     rm -rf /var/lib/apt/lists/*
 
