@@ -1,0 +1,11 @@
+#!/bin/bash
+PKG=$(realpath $1)
+BASENAME=${1##*/}
+# # Create tmp unpackage dir
+TEMP_DIR=`mktemp -d -t $BASENAME-XXXXXXXXXX`
+echo $TEMP_DIR
+cd $TEMP_DIR
+cp $PKG ./
+ar -x $BASENAME
+tar -zxvf data.tar.gz
+cp -R usr/local/* /usr/local/arm-frc2020-linux-gnueabi/

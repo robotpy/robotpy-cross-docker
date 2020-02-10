@@ -57,12 +57,17 @@ RUN set -xe; \
 
 COPY --from=pycompile /usr/local /usr/local
 COPY --from=pycompile /build/crosspy /build/crosspy
+COPY opkg-venv /usr/local/bin
 
 RUN set -xe; \
+    chmod a+x /usr/local/bin/opkg-venv; \
     ldconfig; \
     python3.8 -m pip install crossenv; \
-    python3.8 -m crossenv /build/crosspy/bin/python3.8 /build/venv --sysroot=$(arm-frc2020-linux-gnueabi-gcc -print-sysroot);
+    python3.8 -m crossenv /build/crosspy/bin/python3.8 /build/venv --sysroot=$(arm-frc2020-linux-gnueabi-gcc -print-sysroot); \
+    /build/venv/bin/cross-pip install wheel;
 
+ENV LDSHARED="arm-frc2020-linux-gnueabi-gcc -pthread -shared"
+ENV CC="arm-frc2020-linux-gnueabi-gcc -pthread"
 ENV RPYBUILD_PARALLEL=1
 
 COPY crossenv.cfg /build/venv/crossenv.cfg
