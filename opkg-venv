@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 PKG=$(realpath $1)
 BASENAME=${1##*/}
 # # Create tmp unpackage dir
