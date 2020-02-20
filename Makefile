@@ -1,5 +1,5 @@
 
-VERSION=2020-18.04
+VERSION=$(git describe --tags)
 
 .PHONY: image
 image: base
@@ -7,7 +7,7 @@ image: base
 
 .PHONY: base
 base:
-	docker build -t robotpy/roborio-cpp-cross-ubuntu:$(VERSION) -f base.dockerfile .
+	docker build -t roborio-cross-ubuntu:$(VERSION)-base -f base.dockerfile .
 
 .PHONY: dev
 dev: image

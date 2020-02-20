@@ -1,5 +1,5 @@
 
-FROM robotpy/roborio-cpp-cross-ubuntu:2020-18.04 AS pycompile
+FROM robotpy/roborio-cross-ubuntu:2020-18.04-base AS pycompile
 
 ENV TARGET_HOST="arm-frc2020-linux-gnueabi"
 ENV BUILD_HOST="x86_64"
@@ -46,7 +46,7 @@ RUN set -xe; \
 # Minimal cross-compilation environment
 #
 
-FROM robotpy/roborio-cpp-cross-ubuntu:2020-18.04 AS crossenv
+FROM robotpy/roborio-cross-ubuntu:2020-18.04-base AS crossenv
 
 RUN set -xe; \
     apt-get update; \
