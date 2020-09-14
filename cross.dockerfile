@@ -1,5 +1,6 @@
 
-FROM robotpy/roborio-cross-ubuntu:2020-18.04-base AS pycompile
+ARG VERSION=invalid-version
+FROM robotpy/roborio-cross-ubuntu:${VERSION}-base AS pycompile
 
 ENV TARGET_HOST="arm-frc2020-linux-gnueabi"
 ENV BUILD_HOST="x86_64"
@@ -46,13 +47,13 @@ RUN set -xe; \
 # Minimal cross-compilation environment
 #
 
-FROM robotpy/roborio-cross-ubuntu:2020-18.04-base AS crossenv
+FROM robotpy/roborio-cross-ubuntu:${VERSION}-base AS crossenv
 
 RUN set -xe; \
     apt-get update; \
     apt-get install -y \
         binutils libreadline5 libncursesw5 libssl1.1 \
-        libsqlite3-0 libgdbm5 libbz2-1.0 libffi6 zlib1g; \
+        libsqlite3-0 libgdbm6 libbz2-1.0 libffi7 zlib1g; \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=pycompile /usr/local /usr/local

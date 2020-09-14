@@ -1,14 +1,22 @@
 
-VERSION=$(git describe --tags)
+VERSION=$(shell git describe --tags)
 
 .PHONY: image
 image: base
-	docker build -t robotpy/roborio-cross-ubuntu:$(VERSION) -f cross.dockerfile .
+	docker build . \
+		-t robotpy/roborio-cross-ubuntu:$(VERSION) \
+		--build-arg VERSION=$(VERSION) \
+		-f cross.dockerfile
 
 .PHONY: base
 base:
-	docker build -t roborio-cross-ubuntu:$(VERSION)-base -f base.dockerfile .
+	docker build . \
+		-t robotpy/roborio-cross-ubuntu:$(VERSION)-base \
+		-f base.dockerfile
 
 .PHONY: dev
-dev: image
-	docker build -t robotpy/roborio-cross-ubuntu:$(VERSION)-dev -f dev.dockerfile .
+dev:
+	docker build . \
+		-t robotpy/roborio-cross-ubuntu:$(VERSION)-dev
+		--build-arg VERSION=$(VERSION) \
+		-f dev.dockerfile
