@@ -72,6 +72,8 @@ RUN set -xe; \
     python3.9 -m crossenv /build/crosspy/bin/python3.9 /build/venv --sysroot=$(arm-frc2020-linux-gnueabi-gcc -print-sysroot); \
     /build/venv/bin/cross-pip install wheel;
 
+COPY pip.conf /build/venv/cross/pip.conf
+
 ENV RPYBUILD_PARALLEL=1
 
 COPY crossenv.cfg /build/venv/crossenv.cfg
