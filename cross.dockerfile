@@ -12,6 +12,17 @@ ENV PYTHON_ARCHIVE="Python-$PYTHON_VERSION.tar.xz"
 ENV PREFIX="$INSTALL_DIRECTORY"
 
 #
+# Python compilation prereqs
+#
+
+RUN set -xe; \
+    apt-get update; \
+    apt-get install -y build-essential checkinstall g++ libreadline-gplv2-dev libncursesw5-dev libssl-dev \
+        libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev liblzma-dev lzma-dev libffi-dev zlib1g-dev; \
+    # cleanup
+    rm -rf /var/lib/apt/lists/*
+
+#
 # Python cross-compilation
 #
 
@@ -19,10 +30,6 @@ COPY 0001-bpo-41916-allow-cross-compiled-python-to-have-pthrea.patch /
 
 RUN set -xe; \
     mkdir -p "$PREFIX"; \
-    # python prereqs
-    apt-get update; \
-    apt-get install -y build-essential checkinstall libreadline-gplv2-dev libncursesw5-dev libssl-dev \
-        libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev lzma-dev libffi-dev zlib1g-dev; \
     # Download
     cd $WORKING_DIRECTORY; \
     wget -c https://www.python.org/ftp/python/$PYTHON_VERSION/$PYTHON_ARCHIVE; \
@@ -44,9 +51,8 @@ RUN set -xe; \
         ac_cv_pthread_is_default=no ac_cv_pthread=yes ac_cv_cxx_thread=yes; \
     make -j8; \
     # make install here is fine because we include --prefix in the configure statement
-    make install; \
-    # cleanup
-    rm -rf /var/lib/apt/lists/*
+    make install
+    
 
 #
 # Minimal cross-compilation environment
@@ -58,7 +64,7 @@ RUN set -xe; \
     apt-get update; \
     apt-get install -y \
         binutils libreadline5 libncursesw5 libssl1.1 \
-        libsqlite3-0 libgdbm6 libbz2-1.0 libffi7 zlib1g; \
+        libsqlite3-0 libgdbm6 libbz2-1.0 liblzma5 libffi7 zlib1g; \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=pycompile /usr/local /usr/local
