@@ -2,7 +2,7 @@
 ARG VERSION=invalid-version
 FROM robotpy/roborio-cross-ubuntu:${VERSION}-base AS pycompile
 
-ENV TARGET_HOST="arm-frc2020-linux-gnueabi"
+ENV TARGET_HOST="arm-frc2022-linux-gnueabi"
 ENV BUILD_HOST="x86_64"
 ENV WORKING_DIRECTORY="/build"
 ENV INSTALL_DIRECTORY="/build/crosspy"
@@ -42,7 +42,7 @@ RUN set -xe; \
     cd $WORKING_DIRECTORY;cd $SOURCE_DIRECTORY; \
     ./configure --enable-optimizations --with-ensurepip=install; \
     make -j8 altinstall; \
-    # cross-compile for frc2020
+    # cross-compile for frc
     cd $WORKING_DIRECTORY;cd $SOURCE_DIRECTORY; make distclean; \
     ./configure --host=$TARGET_HOST --build=$BUILD_HOST --prefix=$PREFIX \
         --disable-ipv6 --enable-unicode=ucs4 \
@@ -75,7 +75,7 @@ RUN set -xe; \
     chmod a+x /usr/local/bin/opkg-venv; \
     ldconfig; \
     python3.9 -m pip install crossenv; \
-    python3.9 -m crossenv /build/crosspy/bin/python3.9 /build/venv --sysroot=$(arm-frc2020-linux-gnueabi-gcc -print-sysroot) --env UNIXCONFDIR=/build/venv/cross/etc; \
+    python3.9 -m crossenv /build/crosspy/bin/python3.9 /build/venv --sysroot=$(arm-frc2022-linux-gnueabi-gcc -print-sysroot) --env UNIXCONFDIR=/build/venv/cross/etc; \
     /build/venv/bin/cross-pip install wheel;
 
 COPY pip.conf /build/venv/cross/pip.conf

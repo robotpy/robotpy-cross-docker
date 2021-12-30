@@ -1,5 +1,5 @@
-
-FROM robotpy/roborio-cross-ubuntu:2020-18.04
+ARG VERSION=invalid-version
+FROM robotpy/roborio-cross-ubuntu:${VERSION}-base
 
 RUN set -xe; \
     apt-get update; \
@@ -7,5 +7,5 @@ RUN set -xe; \
     rm -rf /var/lib/apt/lists/*
 
 ENV RPYBUILD_PARALLEL=1
-ENV CC="ccache arm-frc2020-linux-gnueabi-gcc"
+ENV CC="ccache arm-frc2022-linux-gnueabi-gcc"
 ENV GCC_COLORS=1

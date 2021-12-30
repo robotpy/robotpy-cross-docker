@@ -8,4 +8,4 @@ cd $TEMP_DIR
 cp $PKG ./
 ar -x $BASENAME
 tar -zxvf data.tar.gz
-cp -R usr/local/* /usr/local/arm-frc2020-linux-gnueabi/
+cp -R usr/local/* /usr/local/arm-frc2022-linux-gnueabi/
