@@ -6,7 +6,7 @@ ENV TARGET_HOST="arm-frc2022-linux-gnueabi"
 ENV BUILD_HOST="x86_64"
 ENV WORKING_DIRECTORY="/build"
 ENV INSTALL_DIRECTORY="/build/crosspy"
-ENV PYTHON_VERSION="3.9.1"
+ENV PYTHON_VERSION="3.10.1"
 ENV SOURCE_DIRECTORY="Python-$PYTHON_VERSION"
 ENV PYTHON_ARCHIVE="Python-$PYTHON_VERSION.tar.xz"
 ENV PREFIX="$INSTALL_DIRECTORY"
@@ -74,8 +74,8 @@ COPY opkg-venv /usr/local/bin
 RUN set -xe; \
     chmod a+x /usr/local/bin/opkg-venv; \
     ldconfig; \
-    python3.9 -m pip install crossenv; \
-    python3.9 -m crossenv /build/crosspy/bin/python3.9 /build/venv --sysroot=$(arm-frc2022-linux-gnueabi-gcc -print-sysroot) --env UNIXCONFDIR=/build/venv/cross/etc; \
+    python3.10 -m pip install crossenv; \
+    python3.10 -m crossenv /build/crosspy/bin/python3.10 /build/venv --sysroot=$(arm-frc2022-linux-gnueabi-gcc -print-sysroot) --env UNIXCONFDIR=/build/venv/cross/etc; \
     /build/venv/bin/cross-pip install wheel;
 
 COPY pip.conf /build/venv/cross/pip.conf
