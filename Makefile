@@ -17,6 +17,6 @@ base:
 .PHONY: dev
 dev:
 	docker build . \
-		-t robotpy/roborio-cross-ubuntu:$(VERSION)-dev
+		-t robotpy/roborio-cross-ubuntu:$(VERSION)-dev \
 		--build-arg VERSION=$(VERSION) \
 		-f dev.dockerfile
