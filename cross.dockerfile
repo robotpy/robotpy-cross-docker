@@ -74,10 +74,8 @@ RUN set -xe; \
 
 COPY --from=pycompile /usr/local /usr/local
 COPY --from=pycompile /build/crosspy /build/crosspy
-COPY opkg-venv /usr/local/bin
 
 RUN set -xe; \
-    chmod a+x /usr/local/bin/opkg-venv; \
     ldconfig; \
     python3.10 -m pip install crossenv; \
     python3.10 -m crossenv /build/crosspy/bin/python3.10 /build/venv --sysroot=$(arm-frc2022-linux-gnueabi-gcc -print-sysroot) --env UNIXCONFDIR=/build/venv/cross/etc; \
