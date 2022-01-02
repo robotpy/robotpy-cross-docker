@@ -23,7 +23,7 @@ Use the container
 Run the docker image (note that we map the current directory to the `/v`
 directory):
 
-    $ docker run --rm -it -v $(pwd):/v robotpy/roborio-cross-ubuntu:2022.1
+    $ docker run --rm -it -v $(pwd):/v robotpy/roborio-cross-ubuntu:2022.2
 
 Once you're in the container, source the virtual environment and you can now
 build python packages for the RoboRIO!
