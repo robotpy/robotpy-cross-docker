@@ -27,6 +27,7 @@ RUN set -xe; \
 #
 
 COPY 0001-bpo-41916-allow-cross-compiled-python-to-have-pthrea.patch /
+COPY 0001-Use-specified-host_cpu-when-cross-compiling-for-Linu.patch /
 
 RUN set -xe; \
     mkdir -p "$PREFIX"; \
@@ -38,6 +39,8 @@ RUN set -xe; \
     cd $SOURCE_DIRECTORY; \
     # patch -pthread CXX issue
     patch -p1 < /0001-bpo-41916-allow-cross-compiled-python-to-have-pthrea.patch; \
+    # patch arm cpu hardcoding
+    patch -p1 < /0001-Use-specified-host_cpu-when-cross-compiling-for-Linu.patch; \
     # Build python for host
     cd $WORKING_DIRECTORY;cd $SOURCE_DIRECTORY; \
     ./configure --enable-optimizations --with-ensurepip=install; \
@@ -46,6 +49,8 @@ RUN set -xe; \
     cd $WORKING_DIRECTORY;cd $SOURCE_DIRECTORY; make distclean; \
     ./configure --host=$TARGET_HOST --build=$BUILD_HOST --prefix=$PREFIX \
         --disable-ipv6 --enable-unicode=ucs4 \
+        ac_cv_host=armv7l-frc2022-linux-gnueabi \
+        ac_cv_buggy_getaddrinfo=no \
         ac_cv_file__dev_ptmx=no ac_cv_file__dev_ptc=no \
         ac_cv_have_long_long_format=yes \
         ac_cv_pthread_is_default=no ac_cv_pthread=yes ac_cv_cxx_thread=yes; \
@@ -83,4 +88,3 @@ COPY os-release /build/venv/cross/etc/os-release
 
 ENV RPYBUILD_PARALLEL=1
 
-COPY crossenv.cfg /build/venv/crossenv.cfg
