@@ -69,7 +69,8 @@ RUN set -xe; \
     apt-get update; \
     apt-get install -y \
         binutils libreadline5 libncursesw5 libssl1.1 \
-        libsqlite3-0 libgdbm6 libbz2-1.0 liblzma5 libffi7 zlib1g; \
+        libsqlite3-0 libgdbm6 libbz2-1.0 liblzma5 libffi7 zlib1g \
+        libffi-dev; \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=pycompile /usr/local /usr/local
