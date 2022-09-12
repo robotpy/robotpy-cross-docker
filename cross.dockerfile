@@ -77,7 +77,7 @@ COPY --from=pycompile /build/crosspy /build/crosspy
 
 RUN set -xe; \
     ldconfig; \
-    python3.10 -m pip install crossenv==1.1.4; \
+    python3.10 -m pip install crossenv==1.3.0; \
     python3.10 -m crossenv /build/crosspy/bin/python3.10 /build/venv --sysroot=$(arm-frc2022-linux-gnueabi-gcc -print-sysroot) --env UNIXCONFDIR=/build/venv/cross/etc; \
     /build/venv/bin/cross-pip install wheel;
 
