@@ -1,4 +1,4 @@
-From 0bca228707c3f69cb8e6b4bc59b2ecf54f1f7c76 Mon Sep 17 00:00:00 2001
+From fefd3d2dccbd21b01a649fa9683d98f2648c83f6 Mon Sep 17 00:00:00 2001
 From: Dustin Spicuzza <dustin@virtualroadside.com>
 Date: Sat, 3 Oct 2020 12:31:44 -0400
 Subject: [PATCH] bpo-41916: allow cross-compiled python to have -pthread set
@@ -8,15 +8,11 @@ When cross-compiling, the compile/run test for -pthread always fails so -pthread
 will never be automatically set without an override from the cache. ac_cv_pthread
 can already be overridden, so do the same thing for ac_cv_cxx_thread.
 ---
- configure    | 12 +++++++++---
- configure.ac |  8 +++++---
- 2 files changed, 14 insertions(+), 6 deletions(-)
-
 diff --git a/configure b/configure
-index 0914e24704..119d720500 100755
+index 0e9f72faa7..72886b2a95 100755
 --- a/configure
 +++ b/configure
-@@ -7710,12 +7710,14 @@ fi
+@@ -9509,12 +9509,14 @@ fi
  
  # If we have set a CC compiler flag for thread support then
  # check if it works for CXX, too.
@@ -33,13 +29,21 @@ index 0914e24704..119d720500 100755
  
  if test "$ac_cv_kpthread" = "yes"
  then
-@@ -7744,10 +7746,14 @@ then
+@@ -9528,6 +9530,8 @@ elif test "$ac_cv_pthread" = "yes"
+ then
+   CXX="$CXX -pthread"
+   ac_cv_cxx_thread=yes
++else
++  ac_cv_cxx_thread=no
+ fi
+ 
+ if test $ac_cv_cxx_thread = yes
+@@ -9543,10 +9547,13 @@ then
    fi
    rm -fr conftest*
  fi
 +CXX="$ac_save_cxx"
 +fi
-+
  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_cxx_thread" >&5
  $as_echo "$ac_cv_cxx_thread" >&6; }
 +else
@@ -48,31 +52,40 @@ index 0914e24704..119d720500 100755
 -CXX="$ac_save_cxx"
  
  
- # checks for header files
+ 
 diff --git a/configure.ac b/configure.ac
-index 7051dc109a..6259c0290c 100644
+index a4f3b0ab84..7fcf7949c1 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -2080,11 +2080,11 @@ fi
+@@ -2664,11 +2664,10 @@ fi
  
  # If we have set a CC compiler flag for thread support then
  # check if it works for CXX, too.
 -ac_cv_cxx_thread=no
  if test ! -z "$CXX"
  then
- AC_MSG_CHECKING(whether $CXX also accepts flags for thread support)
+-AC_MSG_CHECKING(whether $CXX also accepts flags for thread support)
 -ac_save_cxx="$CXX"
-+AC_CACHE_VAL(ac_cv_cxx_thread,
++AC_CACHE_CHECK([whether $CXX also accepts flags for thread support], [ac_cv_cxx_thread],
 +[ac_save_cxx="$CXX"
  
  if test "$ac_cv_kpthread" = "yes"
  then
-@@ -2113,9 +2113,11 @@ then
+@@ -2682,6 +2681,8 @@ elif test "$ac_cv_pthread" = "yes"
+ then
+   CXX="$CXX -pthread"
+   ac_cv_cxx_thread=yes
++else
++  ac_cv_cxx_thread=no
+ fi
+ 
+ if test $ac_cv_cxx_thread = yes
+@@ -2697,9 +2698,10 @@ then
    fi
    rm -fr conftest*
  fi
+-AC_MSG_RESULT($ac_cv_cxx_thread)
 +CXX="$ac_save_cxx"])
- AC_MSG_RESULT($ac_cv_cxx_thread)
 +else
 +  ac_cv_cxx_thread=no
  fi
@@ -81,5 +94,5 @@ index 7051dc109a..6259c0290c 100644
  dnl # check for ANSI or K&R ("traditional") preprocessor
  dnl AC_MSG_CHECKING(for C preprocessor type)
 -- 
-2.26.2
+2.37.3
 
