@@ -13,4 +13,4 @@ RUN set -xe; \
         zip; \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -SL https://github.com/wpilibsuite/opensdk/releases/download/v2023-2/cortexa9_vfpv3-roborio-academic-2023-x86_64-linux-gnu-Toolchain-12.1.0.tgz | sh -c 'mkdir -p /usr/local && cd /usr/local && tar xzf - --strip-components=2'
+RUN curl -SL https://github.com/wpilibsuite/opensdk/releases/download/v2023-3/cortexa9_vfpv3-roborio-academic-2023-x86_64-linux-gnu-Toolchain-12.1.0.tgz | sh -c 'mkdir -p /usr/local && cd /usr/local && tar xzf - --strip-components=2'
