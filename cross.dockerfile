@@ -7,7 +7,7 @@ ENV AC_TARGET_HOST="armv7l-frc2023-linux-gnueabi"
 ENV BUILD_HOST="x86_64"
 ENV WORKING_DIRECTORY="/build"
 ENV INSTALL_DIRECTORY="/build/crosspy"
-ENV PYTHON_VERSION="3.11.0rc2"
+ENV PYTHON_VERSION="3.11.0"
 ENV PYTHON_FTP_VERSION="3.11.0"
 ENV PYTHON_EXE="python3.11"
 ENV SOURCE_DIRECTORY="Python-$PYTHON_VERSION"
@@ -82,7 +82,7 @@ COPY --from=pycompile /build/crosspy /build/crosspy
 
 RUN set -xe; \
     ldconfig; \
-    python3.11 -m pip install crossenv==1.3.0; \
+    python3.11 -m pip install https://tortall.net/~robotpy/wheels/2023/misc/crossenv-1.3.0%2Bg86d44f0-py3-none-any.whl; \
     python3.11 -m crossenv /build/crosspy/bin/python3.11 /build/venv --sysroot=$(arm-frc2023-linux-gnueabi-gcc -print-sysroot) --env UNIXCONFDIR=/build/venv/cross/etc; \
     /build/venv/bin/cross-pip install wheel;
 

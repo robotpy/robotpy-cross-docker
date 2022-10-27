@@ -1,6 +1,5 @@
 
-# VERSION=$(shell git describe --tags)
-VERSION=2023.1
+VERSION=$(shell git describe --tags)
 
 .PHONY: image
 image: base
